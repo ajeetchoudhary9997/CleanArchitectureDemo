@@ -1,7 +1,7 @@
 package com.example.cleanarchitecturedemo.hilt
 
 import com.example.cleanarchitecturedemo.data.repository.MealDetailsRepositoryImpl
-import com.example.cleanarchitecturedemo.data.remote.MealSearchImpl
+import com.example.cleanarchitecturedemo.data.remote.MealAPIInterface
 import com.example.cleanarchitecturedemo.data.repository.MealSearchRepositoryImpl
 import com.example.cleanarchitecturedemo.domain.repository.MealDetailsRepository
 import com.example.cleanarchitecturedemo.domain.repository.MealSearchRepository
@@ -20,23 +20,32 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object HiltModules {
+    /**
+     * Will provide MealAPIInterface object where required
+     */
     @Provides
     @Singleton
-    fun provideMealSearchAPI(): MealSearchImpl {
+    fun provideMealSearchAPI(): MealAPIInterface {
         return Retrofit.Builder().baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()).build()
-            .create(MealSearchImpl::class.java)
+            .create(MealAPIInterface::class.java)
     }
 
+    /**
+     * Will provide MealSearchRepositoryImpl object where required
+     */
     @Provides
-    fun provideMealSearchRepo(mealSearchAPI: MealSearchImpl): MealSearchRepository {
+    fun provideMealSearchRepo(mealSearchAPI: MealAPIInterface): MealSearchRepository {
         return MealSearchRepositoryImpl(mealSearchAPI)
     }
 
 
+    /**
+     * Will provide MealDetailsRepositoryImpl object where required
+     */
     @Provides
-    fun provideMealDetailsRepo(searchMealSearchAPI: MealSearchImpl): MealDetailsRepository {
-        return MealDetailsRepositoryImpl(searchMealSearchAPI)
+    fun provideMealDetailsRepo(mealSearchAPI: MealAPIInterface): MealDetailsRepository {
+        return MealDetailsRepositoryImpl(mealSearchAPI)
     }
 
 

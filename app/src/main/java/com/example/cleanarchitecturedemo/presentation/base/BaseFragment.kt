@@ -11,6 +11,10 @@ import androidx.fragment.app.Fragment
 /**
  * Created by Ajeet Singh on 06/06/22.
  */
+
+/**
+ * Base Fragment that will provide binding by default
+ */
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     private var _binding: T? = null
     val binding: T

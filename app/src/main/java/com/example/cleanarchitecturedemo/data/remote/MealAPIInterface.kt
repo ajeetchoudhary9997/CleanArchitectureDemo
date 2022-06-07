@@ -7,7 +7,11 @@ import retrofit2.http.Query
 /**
  * Created by Ajeet Singh on 06/06/22.
  */
-interface MealSearchImpl {
+
+/**
+ * This interface will contain all the API calls
+ */
+interface MealAPIInterface {
     @GET("/api/json/v1/1/search.php")
     suspend fun getMealList(@Query("s") searchQuery:String): MealsDTO
 

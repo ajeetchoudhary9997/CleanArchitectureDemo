@@ -22,7 +22,9 @@ class MealDetailsViewModel @Inject constructor(private val mealDetailsUseCase: G
     private val _mealDetails = MutableStateFlow<MealDetailsState>(MealDetailsState())
     val mealDetails: StateFlow<MealDetailsState> = _mealDetails
 
-
+    /**
+     * Observe the flow and update state for meal details
+     */
     fun getMealDetails(id: String) {
         mealDetailsUseCase(id).onEach {
             when (it) {
@@ -33,7 +35,10 @@ class MealDetailsViewModel @Inject constructor(private val mealDetailsUseCase: G
                     _mealDetails.value = MealDetailsState(error = it.message ?: "")
                 }
                 is Resource.Success -> {
-                    _mealDetails.value = MealDetailsState(data = it.data?.get(0))
+                    if (it.data?.isEmpty() == true)
+                        _mealDetails.value = MealDetailsState(error = it.message ?: "")
+                    else
+                        _mealDetails.value = MealDetailsState(data = it.data?.get(0))
                 }
             }
         }.launchIn(viewModelScope)

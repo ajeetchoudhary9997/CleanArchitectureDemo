@@ -3,6 +3,11 @@ package com.example.cleanarchitecturedemo.domain.model
 /**
  * Created by Ajeet Singh on 05/06/22.
  */
+
+/**
+ * MealDetails Actual model that will be used by the presenter layer,
+ * this model will contain only relatable data for meal details
+ */
 data class MealDetails(
     val name: String,
     val image: String,

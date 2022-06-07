@@ -50,7 +50,6 @@ class MealDetailsFragment : BaseFragment<FragmentDetailsSearchBinding>() {
             findNavController().popBackStack()
         }
 
-
     }
 
 }

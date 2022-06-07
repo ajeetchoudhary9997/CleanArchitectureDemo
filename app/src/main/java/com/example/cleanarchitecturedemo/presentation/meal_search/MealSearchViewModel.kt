@@ -18,10 +18,13 @@ import javax.inject.Inject
 @HiltViewModel
 class MealSearchViewModel @Inject constructor(private val getMealSearchListUseCase: GetMealSearchListUseCase) :
     ViewModel() {
-    private val _mealSearchList = MutableStateFlow<MealSearchState>(MealSearchState())
+    private val _mealSearchList = MutableStateFlow(MealSearchState())
     val mealSearchState: StateFlow<MealSearchState>
         get() = _mealSearchList
 
+    /**
+     * Observe the flow and update state for meal search
+     */
     fun getSearchMeals(searchQuery: String) {
         getMealSearchListUseCase(searchQuery).onEach {
             when (it) {
