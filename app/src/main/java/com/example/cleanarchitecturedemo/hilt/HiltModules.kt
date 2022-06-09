@@ -31,22 +31,4 @@ object HiltModules {
             .create(MealAPIInterface::class.java)
     }
 
-    /**
-     * Will provide MealSearchRepositoryImpl object where required
-     */
-    @Provides
-    fun provideMealSearchRepo(mealSearchAPI: MealAPIInterface): MealSearchRepository {
-        return MealSearchRepositoryImpl(mealSearchAPI)
-    }
-
-
-    /**
-     * Will provide MealDetailsRepositoryImpl object where required
-     */
-    @Provides
-    fun provideMealDetailsRepo(mealSearchAPI: MealAPIInterface): MealDetailsRepository {
-        return MealDetailsRepositoryImpl(mealSearchAPI)
-    }
-
-
 }
