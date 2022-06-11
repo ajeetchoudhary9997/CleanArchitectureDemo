@@ -7,7 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.cleanarchitecturedemo.R
@@ -21,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class MealDetailsFragment : BaseFragment<FragmentDetailsSearchBinding>() {
-    override fun getLayoutId()=R.layout.fragment_details_search
+    override fun getLayoutId() = R.layout.fragment_details_search
     private val viewModel: MealDetailsViewModel by viewModels()
 
     private val args: MealDetailsFragmentArgs by navArgs()
@@ -32,17 +35,21 @@ class MealDetailsFragment : BaseFragment<FragmentDetailsSearchBinding>() {
             viewModel.getMealDetails(it)
         }
 
-        lifecycle.coroutineScope.launchWhenCreated {
-            viewModel.mealDetails.collect { mealDetailsState ->
-                if (mealDetailsState.isLoading) {
-                }
-                if (mealDetailsState.error.isNotBlank()) {
-                    Toast.makeText(requireContext(),mealDetailsState.error,Toast.LENGTH_SHORT).show()
-                }
-                mealDetailsState.data?.let {
-                    binding.mealDetails = it
+        lifecycleScope.launchWhenCreated {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.mealDetails.collect { mealDetailsState ->
+                    if (mealDetailsState.isLoading) {
+                    }
+                    if (mealDetailsState.error.isNotBlank()) {
+                        Toast.makeText(requireContext(), mealDetailsState.error, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    mealDetailsState.data?.let {
+                        binding.mealDetails = it
+                    }
                 }
             }
+
         }
 
 

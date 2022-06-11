@@ -19,8 +19,8 @@ class MealDetailsViewModel @Inject constructor(private val mealDetailsUseCase: G
     ViewModel() {
 
 
-    private val _mealDetails = MutableStateFlow<MealDetailsState>(MealDetailsState())
-    val mealDetails: StateFlow<MealDetailsState> = _mealDetails
+    private val _mealDetails = MutableStateFlow<MealDetailsUiState>(MealDetailsUiState())
+    val mealDetails: StateFlow<MealDetailsUiState> = _mealDetails
 
     /**
      * Observe the flow and update state for meal details
@@ -29,16 +29,16 @@ class MealDetailsViewModel @Inject constructor(private val mealDetailsUseCase: G
         mealDetailsUseCase(id).onEach {
             when (it) {
                 is Resource.Loading -> {
-                    _mealDetails.value = MealDetailsState(isLoading = true)
+                    _mealDetails.value = MealDetailsUiState(isLoading = true)
                 }
                 is Resource.Error -> {
-                    _mealDetails.value = MealDetailsState(error = it.message ?: "")
+                    _mealDetails.value = MealDetailsUiState(error = it.message ?: "")
                 }
                 is Resource.Success -> {
                     if (it.data?.isEmpty() == true)
-                        _mealDetails.value = MealDetailsState(error = it.message ?: "")
+                        _mealDetails.value = MealDetailsUiState(error = it.message ?: "")
                     else
-                        _mealDetails.value = MealDetailsState(data = it.data?.get(0))
+                        _mealDetails.value = MealDetailsUiState(data = it.data?.get(0))
                 }
             }
         }.launchIn(viewModelScope)

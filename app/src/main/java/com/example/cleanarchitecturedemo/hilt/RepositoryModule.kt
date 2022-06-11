@@ -8,7 +8,6 @@ import com.example.cleanarchitecturedemo.domain.repository.MealSearchRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
 
 /**

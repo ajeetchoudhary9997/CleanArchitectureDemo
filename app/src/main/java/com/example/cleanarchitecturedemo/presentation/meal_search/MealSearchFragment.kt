@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.cleanarchitecturedemo.R
 import com.example.cleanarchitecturedemo.databinding.FragmentMealSearchBinding
@@ -21,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MealSearchFragment : BaseFragment<FragmentMealSearchBinding>() {
 
-    override fun getLayoutId()=R.layout.fragment_meal_search
+    override fun getLayoutId() = R.layout.fragment_meal_search
     private val searchAdapter = MealSearchAdapter()
 
     private val viewModel: MealSearchViewModel by viewModels()
@@ -48,32 +51,33 @@ class MealSearchFragment : BaseFragment<FragmentMealSearchBinding>() {
             }
         })
 
-        lifecycle.coroutineScope.launchWhenCreated {
-            viewModel.mealSearchState.collect { mealSearchState ->
-                if (mealSearchState.isLoading) {
-                    binding.nothingFound.visibility = View.GONE
-                    binding.progressMealSearch.visibility = View.VISIBLE
-                }
-                if (mealSearchState.error.isNotBlank()) {
-                    binding.nothingFound.visibility = View.GONE
-                    binding.progressMealSearch.visibility = View.GONE
-                    Toast.makeText(requireContext(), mealSearchState.error, Toast.LENGTH_SHORT).show()
-                }
-
-                mealSearchState.data?.let {
-                    if (it.isEmpty()) {
-                        binding.nothingFound.visibility = View.VISIBLE
+        lifecycleScope.launchWhenCreated {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.mealSearchState.collect { mealSearchState ->
+                    if (mealSearchState.isLoading) {
+                        binding.nothingFound.visibility = View.GONE
+                        binding.progressMealSearch.visibility = View.VISIBLE
                     }
-                    binding.progressMealSearch.visibility = View.GONE
-                    searchAdapter.setContentList(it.toMutableList())
+                    if (mealSearchState.error.isNotBlank()) {
+                        binding.nothingFound.visibility = View.GONE
+                        binding.progressMealSearch.visibility = View.GONE
+                        Toast.makeText(requireContext(), mealSearchState.error, Toast.LENGTH_SHORT)
+                            .show()
+                    }
+
+                    mealSearchState.data?.let {
+                        if (it.isEmpty()) {
+                            binding.nothingFound.visibility = View.VISIBLE
+                        }
+                        binding.progressMealSearch.visibility = View.GONE
+                        searchAdapter.setContentList(it.toMutableList())
+                    }
                 }
-
-
             }
         }
 
 
-        searchAdapter.itemClickListener { meal->
+        searchAdapter.itemClickListener { meal ->
             findNavController().navigate(
                 MealSearchFragmentDirections.actionMealSearchFragmentToMealDetailsFragment(meal.mealId)
             )
@@ -81,7 +85,6 @@ class MealSearchFragment : BaseFragment<FragmentMealSearchBinding>() {
 
 
     }
-
 
 
 }

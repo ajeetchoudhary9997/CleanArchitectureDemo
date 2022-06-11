@@ -12,7 +12,7 @@ import com.example.cleanarchitecturedemo.domain.model.Meal
  * @param data will provide data once the API returns it
  * @param error if any unexpected things happen during API call, it will return error
  */
-class MealSearchState(
+class MealSearchUiState(
     val data: List<Meal>? = null,
     val error: String = "",
     val isLoading: Boolean = false

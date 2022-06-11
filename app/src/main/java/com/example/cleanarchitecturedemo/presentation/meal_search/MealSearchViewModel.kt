@@ -1,6 +1,5 @@
 package com.example.cleanarchitecturedemo.presentation.meal_search
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cleanarchitecturedemo.domain.use_case.GetMealSearchListUseCase
@@ -18,8 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MealSearchViewModel @Inject constructor(private val getMealSearchListUseCase: GetMealSearchListUseCase) :
     ViewModel() {
-    private val _mealSearchList = MutableStateFlow(MealSearchState())
-    val mealSearchState: StateFlow<MealSearchState>
+    private val _mealSearchList = MutableStateFlow(MealSearchUiState())
+    val mealSearchState: StateFlow<MealSearchUiState>
         get() = _mealSearchList
 
     /**
@@ -29,13 +28,13 @@ class MealSearchViewModel @Inject constructor(private val getMealSearchListUseCa
         getMealSearchListUseCase(searchQuery).onEach {
             when (it) {
                 is Resource.Loading -> {
-                    _mealSearchList.value = MealSearchState(isLoading = true)
+                    _mealSearchList.value = MealSearchUiState(isLoading = true)
                 }
                 is Resource.Success -> {
-                    _mealSearchList.value = MealSearchState(data = it.data)
+                    _mealSearchList.value = MealSearchUiState(data = it.data)
                 }
                 is Resource.Error -> {
-                    _mealSearchList.value = MealSearchState(error = it.message ?: "")
+                    _mealSearchList.value = MealSearchUiState(error = it.message ?: "")
                 }
             }
         }.launchIn(viewModelScope)
