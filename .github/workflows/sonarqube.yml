@@ -26,7 +26,7 @@ jobs:
         uses: kitabisa/sonarqube-action@v1.2.0
         with:
 #          host: ${{ secrets.SONARQUBE_HOST }}
-          host: "https://sonarcloud.io/"
+          host: "https://sonarcloud.io"
           login: ${{ secrets.SONAR_TOKEN }}
           projectBaseDir: "src/"
           projectKey: "my-custom-project"
