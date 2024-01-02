@@ -25,11 +25,10 @@ jobs:
       - name: SonarQube Scan
         uses: kitabisa/sonarqube-action@v1.2.0
         with:
-#          host: ${{ secrets.SONARQUBE_HOST }}
-          host: "https://sonarcloud.io"
+          host: ${{ secrets.SONARQUBE_HOST }}
           login: ${{ secrets.SONAR_TOKEN }}
           projectBaseDir: "src/"
-          projectKey: "my-custom-project"
+          projectKey: "ajeetchoudhary9997_CleanArchitectureDemo"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      - name: SonarCloud Scan
