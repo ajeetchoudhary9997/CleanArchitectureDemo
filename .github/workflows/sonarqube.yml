@@ -22,8 +22,17 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
-      - name: SonarCloud Scan
-        run: ./gradlew app:sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      - name: SonarQube Scan
+        uses: kitabisa/sonarqube-action@v1.2.0
+        with:
+#          host: ${{ secrets.SONARQUBE_HOST }}
+          host: "https://sonarcloud.io/"
+          login: ${{ secrets.SONAR_TOKEN }}
+          projectBaseDir: "src/"
+          projectKey: "my-custom-project"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: SonarCloud Scan
+#        run: ./gradlew app:sonarqube -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
