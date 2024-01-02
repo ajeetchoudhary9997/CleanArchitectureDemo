@@ -9,7 +9,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21"
         classpath "com.google.dagger:hilt-android-gradle-plugin:2.38.1"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.5.0-rc01"
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.4.1.3373"
 
     }
 }
@@ -17,9 +17,17 @@ plugins {
     id 'com.android.application' version '7.2.1' apply false
     id 'com.android.library' version '7.2.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
-
+    id 'org.sonarqube' version "4.4.1.3373"
 }
-
+sonar {
+    properties {
+        property("sonar.sources", "./src/main")
+        property("sonar.host.url", "https://sonarcloud.io/")
+        property("sonar.organization", "ajeetchoudhary9997")
+        property("sonar.projectKey", "ajeetchoudhary9997_CleanArchitectureDemo")
+        property("sonar.projectName", "CleanArchitectureDemo")
+    }
+}
 
 task clean(type: Delete) {
     delete rootProject.buildDir
