@@ -1,6 +1,5 @@
 package com.example.cleanarchitecturedemo.hilt
 
-import com.example.cleanarchitecturedemo.data.remote.MealAPIInterface
 import com.example.cleanarchitecturedemo.data.repository.MealDetailsRepositoryImpl
 import com.example.cleanarchitecturedemo.data.repository.MealSearchRepositoryImpl
 import com.example.cleanarchitecturedemo.domain.repository.MealDetailsRepository

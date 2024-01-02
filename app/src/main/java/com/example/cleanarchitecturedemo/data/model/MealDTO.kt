@@ -1,8 +1,5 @@
 package com.example.cleanarchitecturedemo.data.model
 
-import com.example.cleanarchitecturedemo.domain.model.Meal
-import com.example.cleanarchitecturedemo.domain.model.MealDetails
-
 /**
  * Created by Ajeet Singh on 05/06/22.
  */

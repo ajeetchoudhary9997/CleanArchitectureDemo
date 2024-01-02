@@ -9,6 +9,7 @@ import com.example.cleanarchitecturedemo.data.model.MealsDTO
 /**
  * Template class for Meals Details Repo
  */
+@FunctionalInterface
 interface MealSearchRepository {
     suspend fun getMealList(searchQuery: String): MealsDTO
 }

@@ -5,7 +5,6 @@ import com.example.cleanarchitecturedemo.domain.model.Meal
 import com.example.cleanarchitecturedemo.domain.repository.MealSearchRepository
 import com.example.cleanarchitecturedemo.utils.Resource
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
@@ -27,7 +26,7 @@ class GetMealSearchListUseCase @Inject constructor(private val repository: MealS
     operator fun invoke(searchQuery: String): Flow<Resource<List<Meal>>> = flow {
         try {
             emit(Resource.Loading())
-            val data = withContext(Dispatchers.IO) { repository.getMealList(searchQuery) }
+            val data = repository.getMealList(searchQuery)
             val domainData = data.meals.map { it.toDomainMeal() }
             emit(Resource.Success(data = domainData))
         } catch (e: HttpException) {
@@ -35,7 +34,7 @@ class GetMealSearchListUseCase @Inject constructor(private val repository: MealS
         } catch (e: IOException) {
             emit(Resource.Error(message = e.localizedMessage ?: "Check Connectivity"))
         } catch (e: Exception) {
-
+            emit(Resource.Error(message = e.localizedMessage ?: "Exception occur"))
         }
     }
 }

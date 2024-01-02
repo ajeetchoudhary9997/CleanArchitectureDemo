@@ -4,10 +4,8 @@ import com.example.cleanarchitecturedemo.data.model.mapper.toDomainMealDetails
 import com.example.cleanarchitecturedemo.domain.model.MealDetails
 import com.example.cleanarchitecturedemo.domain.repository.MealDetailsRepository
 import com.example.cleanarchitecturedemo.utils.Resource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -27,16 +25,16 @@ class GetMealDetailUseCase @Inject constructor(private val repository: MealDetai
     operator fun invoke(mealId: String): Flow<Resource<List<MealDetails>>> = flow {
         try {
             emit(Resource.Loading())
-            val data = withContext(Dispatchers.IO) { repository.getMealDetails(mealId) }
+            val data = repository.getMealDetails(mealId)
             val domainData =
-                if (!data.meals.isNullOrEmpty()) data.meals.map { it.toDomainMealDetails() } else emptyList()
+                if (data.meals.isNotEmpty()) data.meals.map { it.toDomainMealDetails() } else emptyList()
             emit(Resource.Success(data = domainData))
         } catch (e: HttpException) {
             emit(Resource.Error(message = e.localizedMessage ?: "An Unknown error occurred"))
         } catch (e: IOException) {
             emit(Resource.Error(message = e.localizedMessage ?: "Check Connectivity"))
         } catch (e: Exception) {
-
+            emit(Resource.Error(message = e.localizedMessage ?: "Exception occur"))
         }
     }
 }

@@ -1,10 +1,6 @@
 package com.example.cleanarchitecturedemo.hilt
 
-import com.example.cleanarchitecturedemo.data.repository.MealDetailsRepositoryImpl
 import com.example.cleanarchitecturedemo.data.remote.MealAPIInterface
-import com.example.cleanarchitecturedemo.data.repository.MealSearchRepositoryImpl
-import com.example.cleanarchitecturedemo.domain.repository.MealDetailsRepository
-import com.example.cleanarchitecturedemo.domain.repository.MealSearchRepository
 import com.example.cleanarchitecturedemo.utils.Constants
 import dagger.Module
 import dagger.Provides

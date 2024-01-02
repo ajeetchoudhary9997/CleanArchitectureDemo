@@ -38,8 +38,8 @@ class MealDetailsFragment : BaseFragment<FragmentDetailsSearchBinding>() {
         lifecycleScope.launchWhenCreated {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.mealDetails.collect { mealDetailsState ->
-                    if (mealDetailsState.isLoading) {
-                    }
+//                    if (mealDetailsState.isLoading) {
+//                    }
                     if (mealDetailsState.error.isNotBlank()) {
                         Toast.makeText(requireContext(), mealDetailsState.error, Toast.LENGTH_SHORT)
                             .show()
